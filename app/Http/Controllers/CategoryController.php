@@ -4,39 +4,47 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
-   public function index(){
-    $categories = Category::all();
-    return view('admin.category.category',compact('categories'));
-   }
+    public function index(){
+        $categories = Category::all();
+        return view('admin.category.category',compact('categories'));
+    }
+    public function store(Request $request)
+    {
+        $category = new Category();
+        $category->category_name = $request->input('category_name');
+        $category->user_id = Auth::id();
 
-   public function create(Request $request) {
-      $category = new Category;
-      $category->category_name = $request->category_name;
-      $category->user_id = $request->user_id;
-      $category->save();
+        $category->save();
 
-      return redirect()->back();
-  }
-  public function edit($id) {
-   $category = Category::find($id);
-   return view('admin.category.edit', compact('category'));
-   }
-   public function edit_confirm(Request $request, $id) {
-    $category = Category::find($id);
-   $category->category_name = $request->category_name;
-   $category->user_id = $request->user_id;
-   $category->save();
+        return redirect()->route('AllCat');
+    }
 
+    public function UpdateCat($id){
+        $update = Category::find($id);
+        return view('admin.category.category',compact('update'));
+    }
+    public function edit($id){
+        $update = Category::find($id);
+        return view('admin.category.edit', compact('update'));
+    }
 
-   return redirect()->back();
-   }
-   public function delete($id) {
-    $category = Category::find($id);
-    $category->delete();
-    return redirect()->back();
-   }
-  
+    public function update(Request $request, $id){
+        $category = Category::find($id);
+        $category->category_name = $request->input('category_name');
+        $category->save();
+
+        return redirect()->route('AllCat');
+    }
+
+    public function delete($id) {
+        $category = Category::find($id);
+        $category->delete();
+        return redirect()->back();
+    }
+
 }
+

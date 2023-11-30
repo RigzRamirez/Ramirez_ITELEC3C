@@ -20,7 +20,7 @@
                                     <th scope="col">Name</th>
                                     <th scope="col">User Id</th>
                                     <th scope="col">Created At</th>
-                                    {{-- <th scope="col" colspan="2">Actions</th> --}}
+                                    <th scope="col" colspan="2">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
